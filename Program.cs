@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SF_CS_007
 {
+
     abstract class Delivery
     {
         public string Address = "Адрес не указан"; // Адрес доставки (дома, пункта выдачи, магазина для самовывоза)
@@ -24,7 +25,7 @@ namespace SF_CS_007
         public override void DisplayDeliveryInfo()
         {
             Console.WriteLine($"Доставка на дом по адресу: {Address}");
-            Console.WriteLine($"Курьер: {CourierName}, Контакт: {CourierContact}");
+            Console.WriteLine($"Курьер: {CourierName}, телефон: {CourierContact}");
             Console.WriteLine($"Дата доставки: {DeliveryDate}");
             Console.WriteLine($"Стоимость: {Cost}.");
         }
@@ -54,19 +55,45 @@ namespace SF_CS_007
         }
     }
 
-    class Order<TDelivery, TStruct> where TDelivery : Delivery
+    class Order<TDelivery> where TDelivery : Delivery
     {
         public TDelivery? Delivery = default;
-
-        public int Number;
-
+        public int Number = 0;
         public string Description = "";
 
-        public void DisplayAddress()
+        public void DisplayOrderInfo()
         {
-            Console.WriteLine(Delivery?.Address ?? "Неизвестный адрес");
+            Console.WriteLine($"Номер заказа: {Number}");
+            Console.WriteLine($"Описание: {Description}");
+            Delivery?.DisplayDeliveryInfo();
         }
-
-        // ... Другие поля
     }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            var homeDelivery = new HomeDelivery
+            {
+                Address         = "ул. Улица, д. 1, кв. 2",
+                DeliveryDate    = DateTime.Now.AddDays(3),
+                Cost            = 1_000,
+                CourierName     = "Иван Иванов",
+                CourierContact  = "+7 777 666 55 44"
+            };
+
+            var order = new Order<HomeDelivery>
+            {
+                Number      = 1,
+                Description = "Заказ техники",
+                Delivery    = homeDelivery
+            };
+
+            order.DisplayOrderInfo();
+
+            Console.WriteLine("Выполнение программы завершено");
+            Console.ReadKey();
+        }
+    }
+
 }
