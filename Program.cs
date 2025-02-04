@@ -7,20 +7,47 @@ using System.Threading.Tasks;
 
 namespace SF_CS_007
 {
-    class Order
+    abstract class Delivery
     {
+        public string Address = "";
+
+    }
+
+    class HomeDelivery : Delivery
+    {
+        /* ... */
+    }
+
+    class PickPointDelivery : Delivery
+    {
+        /* ... */
+    }
+
+    class ShopDelivery : Delivery
+    {
+        /* ... */
+    }
+
+    class Order<TDelivery> where TDelivery : Delivery?
+    {
+        public TDelivery? Delivery = default;
+
         public int Number;
 
-        public string Description;
+        public string Description = "";
 
-        // ... Другие поля
+        public void DisplayAddress()
+        {
+            Console.WriteLine(Delivery?.Address ?? "Неизвестный адрес");
+        }
+
     }
 
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("...");
+            Console.WriteLine("Выполнение программы завершено.");
         }
     }
 }
