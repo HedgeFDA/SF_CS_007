@@ -9,8 +9,7 @@ namespace SF_CS_007
 {
     abstract class Delivery
     {
-        public string Address = "";
-
+        public string Address;
     }
 
     class HomeDelivery : Delivery
@@ -28,26 +27,20 @@ namespace SF_CS_007
         /* ... */
     }
 
-    class Order<TDelivery> where TDelivery : Delivery?
+    class Order<TDelivery,
+    TStruct> where TDelivery : Delivery
     {
-        public TDelivery? Delivery = default;
+        public TDelivery Delivery;
 
         public int Number;
 
-        public string Description = "";
+        public string Description;
 
         public void DisplayAddress()
         {
-            Console.WriteLine(Delivery?.Address ?? "Неизвестный адрес");
+            Console.WriteLine(Delivery.Address);
         }
 
-    }
-
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Выполнение программы завершено.");
-        }
+        // ... Другие поля
     }
 }
